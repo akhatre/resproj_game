@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>User Data</title>
+
+<style type = "text/css">
+		div#main {
+			margin: 0 auto;
+			width: 90%;
+		}
+		div#terms {
+			background-color: lightgrey;
+		}
+		div#button {
+			background-color: #4CAF50; /* Green */
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+    		font-size: 16px;
+		}
+	</style>
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script>
+	// Initialize Firebase
+	var uid;
+	var config = {
+	apiKey: "AIzaSyADX_hwlrszuduKDsVsVKWYBuk8gF4K0cY",
+	authDomain: "resproj-27787.firebaseapp.com",
+	databaseURL: "https://resproj-27787.firebaseio.com",
+	projectId: "resproj-27787",
+	storageBucket: "resproj-27787.appspot.com",
+	messagingSenderId: "612616751913"
+	};
+	
+	firebase.initializeApp(config);
+	
+	firebase.auth().signInAnonymously().catch(function(error) {
+	  // Handle Errors here.
+	  	var errorCode = error.code;
+	  	var errorMessage = error.message;
+		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>"))) 
+	  // ...
+	});
+	
+	firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+		// User is signed in.
+		var isAnonymous = user.isAnonymous;
+		uid = user.uid;
+		  firebase.database().ref('users/' + uid + "/set").set({
+				value: "set" + Math.round(Math.random() * 2.99 + 0.5)
+			});
+		// ...
+	  } else {
+		// User is signed out.
+		// ...
+	  }
+	  // ...
+	});
+
+//	firebase.database().ref('users').set({
+//			value: uid
+//	  	});
+	
+	function sendData() {
+		if (!Number.isInteger(Number(document.getElementById("age").value)) && Number(document.getElementById("age").value) == 0) {
+			alert("Please input valid age");
+			return
+		}
+		if (document.getElementById("gender").value == "Please select your gender") {
+			alert("Please select your gender")
+			return
+		}
+		if (document.getElementById("prolificid").value == "" || document.getElementById("age").value == "" || document.getElementById("nationality").value == "") {
+			alert("Please fill in all fields")
+			return
+		}
+		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/prolificid").set({
+			value: document.getElementById("prolificid").value
+	  	});
+		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/age").set({
+			value: document.getElementById("age").value
+	  	});
+		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/nationality").set({
+			value: document.getElementById("nationality").value
+	  	});
+		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/gender").set({
+			value: document.getElementById("gender").value
+	  	});
+		window.location.href = "theGame.html"
+	}
+</script>
+
+</head>
+
+<body>
+	<script type = "text/javascript">
+		function setSet() {
+			firebase.database().ref('users/' + uid + "/set").set({
+				value: Math.round(Math.random() * 2.99 + 0.5)
+			});
+		}
+	</script>
+	<div id = "main">
+		<form>
+			Prolific ID: <br>
+			<input id = "prolificid" type = "number" name = "prolificid"><br>
+			Age <br>
+			<input id = "age" type = "number" name = "age"><br>
+			Nationality <br>
+			<input id = "nationality" type = "text" name = "nationality"><br>
+			Gender <br>
+			<select id = "gender" name = "gender">
+				<option>Male</option>
+				<option>Female</option>
+				<option>Other/Prefer not to say</option>
+				<option selected disabled hidden>Please select your gender</option>
+			</select>
+		</form>
+		<div id = "button" onClick = "sendData();">
+			Proceed to the Game
+		</div>
+	</div>
+</body>
+</html>
