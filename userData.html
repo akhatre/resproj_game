@@ -6,11 +6,20 @@
 
 <style type = "text/css">
 		div#main {
-			margin: 0 auto;
-			width: 90%;
+			text-align: center;
 		}
-		div#terms {
-			background-color: lightgrey;
+		div#interface {
+			background-color: rgba(246,246,246,1.00);
+			border-radius: 5px;
+			padding: 1%;
+			margin: 1%;
+			text-align: center;
+			display: inline-block;
+			width: 50%;
+		}
+		div#inputs {
+			text-align: left;
+			margin: 0 auto;
 		}
 		div.button {
 			background-color: #4CAF50; /* Green */
@@ -19,8 +28,10 @@
 			padding: 15px 32px;
 			text-align: center;
 			text-decoration: none;
-			display: inline-block;
     		font-size: 16px;
+			border-radius: 5px;
+			user-select: none;
+			margin: 10px 0 10px 0;
 		}
 	</style>
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
@@ -37,31 +48,29 @@
 	
 	firebase.initializeApp(config);
 	
-	function login() {
-		firebase.auth().signInAnonymously().catch(function(error) {
-		  // Handle Errors here.
-			var errorCode = error.code;
-			var errorMessage = error.message;
-			document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>"))) 
-		  // ...
-		});
+	firebase.auth().signInAnonymously().catch(function(error) {
+	  // Handle Errors here.
+		var errorCode = error.code;
+		var errorMessage = error.message;
+		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>"))) 
+	  // ...
+	});
 
-		firebase.auth().onAuthStateChanged(function(user) {
-		  if (user) {
-			// User is signed in.
-			var isAnonymous = user.isAnonymous;
-			var uid = user.uid;
-			  firebase.database().ref('users/' + uid + "/set").set({
-					value: "set" + Math.round(Math.random() * 2.99 + 0.5)
-				});
-			// ...
-		  } else {
-			// User is signed out.
-			// ...
-		  }
-		  // ...
-		});
-	}
+	firebase.auth().onAuthStateChanged(function(user) {
+	  if (user) {
+		// User is signed in.
+		var isAnonymous = user.isAnonymous;
+		var uid = user.uid;
+		  firebase.database().ref('users/' + uid + "/set").set({
+				value: "set" + Math.round(Math.random() * 2.99 + 0.5)
+			});
+		// ...
+	  } else {
+		// User is signed out.
+		// ...
+	  }
+	  // ...
+	});
 	
 	function sendData() {
 		if (!Number.isInteger(Number(document.getElementById("age").value)) && Number(document.getElementById("age").value) == 0) {
@@ -103,26 +112,29 @@
 		}
 	</script>
 	<div id = "main">
-		<div>
-			Prolific ID: <br>
-			<input id = "prolificid" type = "number" name = "prolificid"><br>
-			Age <br>
-			<input id = "age" type = "number" name = "age"><br>
-			Nationality <br>
-			<input id = "nationality" type = "text" name = "nationality"><br>
-			Gender <br>
-			<select id = "gender" name = "gender">
-				<option>Male</option>
-				<option>Female</option>
-				<option>Other/Prefer not to say</option>
-				<option selected disabled hidden>Please select your gender</option>
-			</select>
-		</div>
-		<div class = "button" onClick = "sendData();">
-			Proceed to the Game
-		</div>
-		<div class = "button" onClick = "login();">
-			Login
+		<div id = "interface">
+			<div id = "inputs">
+			<h3>Please input your data. Prolific ID is required to reward you. </h3><br>
+				Prolific ID: <br>
+				<input id = "prolificid" type = "number" name = "prolificid"><br><br>
+				Age <br>
+				<input id = "age" type = "number" name = "age"><br><br>
+				Nationality <br>
+				<input id = "nationality" type = "text" name = "nationality"><br><br>
+				Gender <br>
+				<select id = "gender" name = "gender">
+					<option>Male</option>
+					<option>Female</option>
+					<option>Other/Prefer not to say</option>
+					<option selected disabled hidden>Please select your gender</option>
+				</select><br><br><br>
+			</div>
+			<div class = "button" onClick = "sendData();">
+				Proceed to the Game
+			</div>
+			<div class = "button" onClick = "window.location.href = 'theGame.html';">
+				Oh, just let me in
+			</div>
 		</div>
 	</div>
 </body>

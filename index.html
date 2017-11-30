@@ -9,7 +9,10 @@
 			width: 90%;
 		}
 		div#terms {
-			background-color: lightgrey;
+			background-color: rgba(246,246,246,1.00);
+			border-radius: 5px;
+			padding: 1%;
+			margin: 1%;
 		}
 		div.button {
 			background-color: #4CAF50; /* Green */
@@ -18,24 +21,191 @@
 			padding: 15px 32px;
 			text-align: center;
 			text-decoration: none;
-			display: inline-block;
     		font-size: 16px;
+			border-radius: 5px;
+			user-select: none;
+			margin: 10px 0 10px 0;
+		}
+		a {
+			text-decoration: none;
 		}
 	</style>
+	<script type = "text/javascript">
+		function agreeWithConsent() {
+			var i = 0;
+			while (i < document.getElementsByTagName("input").length) {
+				if (!document.getElementsByTagName("input")[i].checked) {
+					alert("To proceed, you need to tick all the checkboxes");
+					return
+				}
+				i += 1;
+			}
+			window.location.href = "userData.html"
+		}
+	</script>
 </head>
 
 <body>
 
 <div id = "main">
-	<div id = "terms">
-		<h1>Terms and conditions</h1>
-		<p>Please read the following terms and accept them in order to proceed with the experiment</p>
-	</div>
-	<a href = "userData.html">
-		<div class = "button">
-			Accept
+<div id = "terms">
+		<!-- Medium red is the colour of the Faculty of Brain Sciences :-) -->
+  <img src="uclBanner.jpg" style="width: 100%;">
+
+		<div class="page-header">
+			<h2>Information Sheet for Participants in Research Studies</h2>
 		</div>
-	</a>
+
+		<p>Title of the project:</p>
+		<h4>The Potato Game</h4>
+		<p>This study has been approved by the UCL Research Ethics Committee <strong>CBP/2014/005</strong></p>
+
+		<hr>
+
+		<h4>Name and Contact Details of the Investigators:</h4>
+		<div style="display: inline-block; padding: 10px;">
+		  <p> <strong>Contact the researcher:</strong><br>
+		    Akhat Rakishev<br>
+  			<a href="mailto:akhat.rakishev.14@ucl.ac.uk">akhat.rakishev.14@ucl.ac.uk</a><br>
+	      </p>
+		</div>
+		<div style="display: inline-block; float: right; padding: 10px;">
+			<p>
+				Project supervised by:<br>
+				Dr. Maarten Speekenbrink<br>
+				m.speekenbrink@ucl.ac.uk<br>
+			</p>
+		</div>
+		<h4>Details of the Study</h4>
+    <div class="row">
+        <div class="col-md-10">
+            <p>
+                We would like to invite you to participate in this research project
+                directed by researchers at UCL. You should only participate if you want
+                to; choosing not to take part will not disadvantage you in any way.
+                Before you decide whether you want to take part, it is important for you
+                to read the following information carefully and discuss it with others
+                if you wish. Do not hesitate to ask the researcher if there is anything
+                that is not clear or if you would like more information
+                (<a href="mailto:akhat.rakishev.14@ucl.ac.uk">akhat.rakishev.14@ucl.ac.uk</a>).
+            </p>
+            <p>
+                In this experiment, you will play a browser-based computer game as part of
+                a research project into human decision-making. The game should be very enjoyable.
+                Your goal will be to catch as many fish as you can. To do that, you would need to predict were fish school will go on
+                the next day of your fishing. There are more fish in the centre of the school, so the more accurate your prediction is,
+                the more fish you will get.
+            </p>
+            <ul>
+                <li>The approximate duration of this study is <strong>15 minutes.</strong> </li>
+                <li>The maximum allowed duration is 35 minutes. If you exceed this time, you can no longer complete the study.</li>
+                <li>You will be paid <strong>at least £2</strong> upon successful completion,
+                    no matter how well you do, or how long you take.</li>
+                <li>If you perform well, you will also <strong>get a chance of winning amazon voucher</strong>
+                    the chance of winning the voucher will depend on how well you performed in relation to other players.</li>
+                <li>The fish school constantly changes its position.</li>
+                <li>The rate of those changes, however, may also change, so that on certain days fish school would not move far away, while on
+                other days it may move all around the map. Just like real fish do. Amateur fisher never precisely knows were it goes.</li>
+            </ul>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="page-header">
+        <h2>Informed Consent Form for Participants in Research Studies</h2>
+    </div>
+
+    <p>Title of the project:</p>
+    <h4>The Fishing Game</h4>
+    <p>This study has been approved by the UCL Research Ethics Committee  <strong>CBP/2014/005</strong></p>
+
+    <div class="row">
+        <div class="col-md-10">
+            <ul>
+                <li><strong>Important:</strong> the experiment has been carefully designed to work with all
+                    modern browsers on a computer, and also with mobile Chrome and Safari browsers on Android and iOS. However, 
+                    despite all those efforts, it may not work on Mac's version of Google Chrome</li>
+
+                <li><strong>If you are using Google Chrome on Mac:</strong> please switch to any other browser, for example your built in Safari.
+                    You will not be able to complete this study using Google Chrome on Mac (Windows is fine). </li>
+
+                <li> <strong>Acceptance of submissions:</strong> Ordinarily all research participants that complete a study are paid at least
+                    the minimum sign-up reward. However, we check responses carefully to make sure that participants are human beings,
+                    read the instructions and do not cheat. If you try to cheat or share sensitive information about
+                    this study on online forums, your submission <strong>will</strong> be rejected.</li>
+
+                <li>Please also take into account that in this study, you can earn substantially more than the minimum amount
+                    if you perform well. This is only possible if you read the instructions carefully. </li>
+            </ul>
+        </div>
+    </div>
+
+    <hr>
+
+    <h4>Participant’s Statement</h4>
+
+    <p>By ticking the appropriate boxes below, I agree that:</p>
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I have read the information page.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I am not using Google Chrome on Mac .
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I will not try to cheat or post details of this study on online forums
+                    while the study is still running.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I have had the opportunity to ask questions and discuss the study.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I understand that I have the right to withdraw at any stage simply
+                    by closing my browser.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I understand that by participating, I consent to the processing of my personal
+                    information for the purposes of this study only, and that any such
+                    information will be treated as strictly confidential and handled
+                    in accordance with the provisions of the Data Protection Act of 1998.
+                </label>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="">
+                    I understand that by clicking ‘continue’ I consent to participate
+                    in this study.
+                </label>
+            </div>
+        </div>
+	</div>
+	<div class = "button" onClick="agreeWithConsent();">
+		Continue
+	</div>
+	<div class = "button" onClick="window.location.href = 'userData.html'">
+		Oh, just let me in
+	</div>
+</div>
 </div>
 </body>
 </html>
