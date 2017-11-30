@@ -12,7 +12,7 @@
 		div#terms {
 			background-color: lightgrey;
 		}
-		div#button {
+		div.button {
 			background-color: #4CAF50; /* Green */
 			border: none;
 			color: white;
@@ -26,7 +26,6 @@
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 <script>
 	// Initialize Firebase
-	var uid;
 	var config = {
 	apiKey: "AIzaSyADX_hwlrszuduKDsVsVKWYBuk8gF4K0cY",
 	authDomain: "resproj-27787.firebaseapp.com",
@@ -38,33 +37,31 @@
 	
 	firebase.initializeApp(config);
 	
-	firebase.auth().signInAnonymously().catch(function(error) {
-	  // Handle Errors here.
-	  	var errorCode = error.code;
-	  	var errorMessage = error.message;
-		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>"))) 
-	  // ...
-	});
-	
-	firebase.auth().onAuthStateChanged(function(user) {
-	  if (user) {
-		// User is signed in.
-		var isAnonymous = user.isAnonymous;
-		uid = user.uid;
-		  firebase.database().ref('users/' + uid + "/set").set({
-				value: "set" + Math.round(Math.random() * 2.99 + 0.5)
-			});
-		// ...
-	  } else {
-		// User is signed out.
-		// ...
-	  }
-	  // ...
-	});
+	function login() {
+		firebase.auth().signInAnonymously().catch(function(error) {
+		  // Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>"))) 
+		  // ...
+		});
 
-//	firebase.database().ref('users').set({
-//			value: uid
-//	  	});
+		firebase.auth().onAuthStateChanged(function(user) {
+		  if (user) {
+			// User is signed in.
+			var isAnonymous = user.isAnonymous;
+			var uid = user.uid;
+			  firebase.database().ref('users/' + uid + "/set").set({
+					value: "set" + Math.round(Math.random() * 2.99 + 0.5)
+				});
+			// ...
+		  } else {
+			// User is signed out.
+			// ...
+		  }
+		  // ...
+		});
+	}
 	
 	function sendData() {
 		if (!Number.isInteger(Number(document.getElementById("age").value)) && Number(document.getElementById("age").value) == 0) {
@@ -106,7 +103,7 @@
 		}
 	</script>
 	<div id = "main">
-		<form>
+		<div>
 			Prolific ID: <br>
 			<input id = "prolificid" type = "number" name = "prolificid"><br>
 			Age <br>
@@ -120,9 +117,12 @@
 				<option>Other/Prefer not to say</option>
 				<option selected disabled hidden>Please select your gender</option>
 			</select>
-		</form>
-		<div id = "button" onClick = "sendData();">
+		</div>
+		<div class = "button" onClick = "sendData();">
 			Proceed to the Game
+		</div>
+		<div class = "button" onClick = "login();">
+			Login
 		</div>
 	</div>
 </body>

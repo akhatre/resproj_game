@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <title>The Game</title>
 <style type="text/css">
-/*
 	body {
+		width: 100%;
 		overflow: hidden;
+		margin: 0;
 	}
-*/
 	canvas {
 		background-color: #f1f1f1;
 	}
@@ -140,6 +140,15 @@
 				}
 			}
 		}
+		
+		function updateGameDimensions() {
+//			chartContainer.style.height= gameUI_height + "px";
+//			chartContainer.style.width = chartCanvas_width + "px";
+//			gameCanvas.canvas.width = gameCanvas_width;
+//			gameCanvas.canvas.height = gameUI_height;
+//			container.style.height = gameUI_height + "px";
+//			container.style.width = gameCanvas_width + "px";
+		}
 	</script>
 <script>
 	getGameDimensions(); 
@@ -223,6 +232,7 @@
 <script>
 	getGameDimensions(); 
 	//Initialise
+	var gameCanvas;
 	var myGamePiece;
 	var fisher_speed;
 	var fisher_school_speed;
@@ -239,18 +249,21 @@
 	var click = 0;
 	var sea_y = 0;
 	var sea_speed = (gameUI_height/5)/50;
-	var fisher_x = 100;
+	var fisher_x = gameCanvas_width/2;
 	var fish_school_x = 100;
 	var score = 0;
+
 	
 	// Dimensions
 	var fish_school_width = gameCanvas_width/10;
 	var prediction_width = fish_school_width;
-	var fisher_width = 150;
+	var fisher_width = 0.15*gameCanvas_width;
 	var row_height = gameUI_height/6;
 	var day_0 = gameUI_height*2/5;
 	var day_minus_1 = gameUI_height*3/5;
 	var day_minus_2 = gameUI_height*4/5;
+	var fisher_x_adj = fisher_width;
+	var prediction_x_adj = prediction_width*0.5;
 	
 	
 	//Setting up graphics
@@ -307,6 +320,7 @@
 			container.style.width = gameCanvas_width + "px";
 			document.getElementById("gameUI").style.width = gameUI_width+"px";
 			document.getElementById("gameUI").style.margin = "0 auto";
+			gameCanvas = document.getElementById("gameCanvas");
 			window.addEventListener('mousemove', function (e) {
             	mouse_x = e.pageX;
         	})
@@ -396,7 +410,7 @@
 			fish_school_x -= fish_school_speed;
 			iteration += 1;
 
-			myGameArea.context.drawImage(fishers[frame], fisher_x - 80, day_minus_1, fisher_width, row_height);
+			myGameArea.context.drawImage(fishers[frame], fisher_x - fisher_x_adj, day_minus_1, fisher_width, row_height);
 			myGameArea.context.drawImage(fish_schools[frame], fish_school_x, day_minus_1+70, fish_school_width, row_height);
 			
 			
@@ -417,12 +431,35 @@
 			myGameArea.context.drawImage(seas[frame], 0, sea_y-gameUI_height, gameCanvas_width, gameUI_height);
 			iteration = 1;
 			
-			myGameArea.context.drawImage(prediction, mouse_x, day_0, prediction_width, row_height);
+			myGameArea.context.drawImage(prediction, mouse_x - prediction_x_adj, day_0, prediction_width, row_height*2.1);
 			myGameArea.context.drawImage(fish_schools[frame], fish_school_x, day_minus_1+70, fish_school_width, row_height);
-			myGameArea.context.drawImage(fishers[frame], fisher_x - 80, day_minus_1, fisher_width, row_height);
+			myGameArea.context.drawImage(fishers[frame], fisher_x - fisher_x_adj, day_minus_1, fisher_width, row_height);
+			
+			getGameDimensions();
+			updateGameDimensions();
 		}
 		
-//		window.onresize = function() {
+		window.onresize = function() {
+			getGameDimensions();		
+			document.getElementById("gameUI").style.width = gameUI_width+"px";
+			document.getElementById("gameUI").style.margin = "0 auto";
+			chartContainer.style.height= gameUI_height + "px";
+			chartContainer.style.width = chartCanvas_width + "px";
+			gameCanvas.width = gameCanvas_width;
+			gameCanvas.height = gameUI_height;
+			container.style.height = gameUI_height + "px";
+			container.style.width = gameCanvas_width + "px";
+			sea_speed = (gameUI_height/5)/50;
+			fisher_x = gameCanvas_width/2;
+			fish_school_width = gameCanvas_width/10;
+			prediction_width = fish_school_width;
+			fisher_width = 0.15*gameCanvas_width;
+			row_height = gameUI_height/6;
+			day_0 = gameUI_height*2/5;
+			day_minus_1 = gameUI_height*3/5;
+			day_minus_2 = gameUI_height*4/5;
+			fisher_x_adj = fisher_width;
+			prediction_x_adj = prediction_width*0.5;
 //			gameCanvas = document.getElementById("gameCanvas");
 //			gameCanvas_width = window.innerWidth*0.5;
 //			gameUI_height = gameCanvas_width/16*9;
@@ -438,7 +475,7 @@
 //			day_minus_2 = gameUI_height*4/5;
 //			container.style.height = gameUI_height + "px";
 //			container.style.width = gameCanvas_width + "px";
-//		}
+		}
 	}
 	
 </script>
