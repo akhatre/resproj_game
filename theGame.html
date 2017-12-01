@@ -34,6 +34,18 @@
 	div#gameUI {
 		margin: 0 auto;
 	}
+	
+	div.gameStats {
+		display: inline-block;
+		padding: 10px 10px 10px 3px;
+	}
+	div#gameSettings {
+		border-radius: 5px;
+		background-color: rgba(246,246,246,1.00);
+		padding: 10px;
+		vertical-align: middle;
+		display: flex;
+	}
 </style>
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
@@ -92,14 +104,18 @@
 </div>
 -->
 <div id = "game_data">
-	Game stats:
-	<div id = "current_day">Today is day 0</div>
-	<div id = "score_gain">Score earned last day: 0</div>
-	<div id = "score_all">Score earned last day: 0</div>
+	<div class = "gameStats" >Game stats:</div>
+	<div class = "gameStats" id = "current_day">Today is day 0</div>
+	<div class = "gameStats" id = "score_gain">Fish caught last day: 0</div>
+	<div class = "gameStats" id = "score_all">Fish caught overall: 0</div>
 </div>
 <div id = "gameUI">
 	<div id = "game_div" onClick = "next_day();"></div>
 	<div id = "graph"></div>
+</div>
+<div id = "gameSettings">
+	Adjust animation speed: 
+	<input type = "range" min = "-50" max = "50" id = "gameSpeedSlider">
 </div>
 </div>
 	<script>
@@ -233,6 +249,8 @@
 	getGameDimensions(); 
 	//Initialise
 	var gameCanvas;
+	var gameCanvasContext;
+	var score_gain;
 	var myGamePiece;
 	var fisher_speed;
 	var fisher_school_speed;
@@ -248,11 +266,13 @@
 	var day = 0;
 	var animation_step = 1;
 	var click = 0;
+	var showingGain = 0;
 	var sea_y = 0;
 	var sea_speed = (gameUI_height/5)/50;
 	var fisher_x = gameCanvas_width/2;
 	var fish_school_x = 100;
 	var score = 0;
+	var gameSpeed = 60;
 
 	
 	// Dimensions
@@ -315,13 +335,14 @@
 			this.context = this.canvas.getContext("2d");
 //			this.canvas.style.cursor = "none";
 			this.canvas.setAttribute("id", "gameCanvas");
-			this.interval = setInterval(updateGameArea, 60);
+			this.interval = setInterval(updateGameArea, gameSpeed);
 			container.appendChild(this.canvas);
 			container.style.height = gameUI_height + "px";
 			container.style.width = gameCanvas_width + "px";
 			document.getElementById("gameUI").style.width = gameUI_width+"px";
 			document.getElementById("gameUI").style.margin = "0 auto";
 			gameCanvas = document.getElementById("gameCanvas");
+			gameCanvasContext = gameCanvas.getContext("2d");
 			window.addEventListener('mousemove', function (e) {
             	mouse_x = e.pageX;
         	})
@@ -345,15 +366,12 @@
 	}
 	
 	function next_day() {
-		var score_gain;
 		x_pos_at_click = mouse_x;
-		var user_prediction = String(x_pos_at_click/gameCanvas_width);
+		var user_prediction = String((x_pos_at_click-prediction_x_adj)/gameCanvas_width);
 		db.ref('predictions/' + uid + "/" + day).set({
 			value: user_prediction
 	  	});
-//		db.ref('/locations/' + locations_set + "/" + day).once('value').then(function(snapshot) {
-//			fish_school_data.push(snapshot.val()*gameCanvas_width);
-//		});
+		
 		db.ref('/locations/' + locations_set + "/" + day).once('value').then(function(snapshot) {
 			click = 1;
 			fish_school_data_raw.push(snapshot.val());
@@ -361,11 +379,9 @@
 			fisher_speed = (fisher_x - x_pos_at_click)/50;
 			fish_school_speed = (fish_school_x - fish_school_data[day])/50;
 
-			score_gain = Math.abs(100/(x_pos_at_click - fish_school_data[day]));
+			score_gain = Math.round(0.5/Math.abs(user_prediction - fish_school_data_raw[day]));
+			if (score_gain > 300) {score_gain=300};
 			score += score_gain;
-			current_day_field.innerHTML = "Today is day " + day;
-			score_gain_field.innerHTML = "Score earned last day: " + score_gain;
-			score_all_field.innerHTML = "Score earned: " + score;
 
 			gameChart.data.datasets[0].data.push({x:fish_school_data[day], y:day});
 			gameChart.update();
@@ -390,6 +406,7 @@
 	var frame = 0;
 	
 	
+	
 	function updateGameArea() {
 		if (click == 1) {
 			
@@ -398,6 +415,7 @@
 				frame = 0;
 			}
 			
+			showingGain = 0;
 			myGameArea.clear();
 			
 			sea_y += sea_speed;
@@ -417,8 +435,13 @@
 			
 			
 			if (iteration > 50) {
+				current_day_field.innerHTML = "Today is day " + day;
+				score_gain_field.innerHTML = "Fish caught last day: " + score_gain;
+				score_all_field.innerHTML = "Fish caught overall: " + score;
+				
 				click = 0;
 				day += 1;
+				showingGain = 1;
 			}
 			
 		} else {
@@ -426,6 +449,7 @@
 			if (frame == 28) {
 				frame = 0;
 			}
+			
 			
 			myGameArea.clear();
 
@@ -437,11 +461,31 @@
 			myGameArea.context.drawImage(fish_schools[frame], fish_school_x, day_minus_1+70, fish_school_width, row_height);
 			myGameArea.context.drawImage(fishers[frame], fisher_x - fisher_x_adj, day_minus_1, fisher_width, row_height);
 			
-			getGameDimensions();
-			updateGameDimensions();
+			if (showingGain == 1) {
+				gameCanvasContext.font = "30px Comic Sans MS";
+				gameCanvasContext.textAlign = "center";
+				if (score_gain < 3) {
+					gameCanvasContext.fillStyle = "red";
+					gameCanvasContext.fillText("You caught just " + score_gain + " fish today...", gameCanvas_width/2, day_0);
+				} else if (score_gain < 30) {
+					gameCanvasContext.fillStyle = "yellow";
+					gameCanvasContext.fillText("You caught " + score_gain + " fish today.", gameCanvas_width/2, day_0);
+				} else if (score_gain < 100) {
+					gameCanvasContext.fillStyle = "lightgreen";
+					gameCanvasContext.fillText("Well done! You caught " + score_gain + " fish today!", gameCanvas_width/2, day_0);
+				} else {
+					var gradient=gameCanvasContext.createLinearGradient(0,0,gameCanvas.width,0);
+					gradient.addColorStop("0","magenta");
+					gradient.addColorStop("0.5","blue");
+					gradient.addColorStop("1.0","red");
+					gameCanvasContext.fillStyle = gradient;
+					gameCanvasContext.fillText("OMG! You caught " + score_gain + " fish today!!!", gameCanvas_width/2, day_0);
+				}
+			}
 		}
-		
-		window.onresize = function() {
+	}
+	
+	window.onresize = function() {
 			getGameDimensions();		
 			document.getElementById("gameUI").style.width = gameUI_width+"px";
 			document.getElementById("gameUI").style.margin = "0 auto";
@@ -491,8 +535,13 @@
 //			container.style.height = gameUI_height + "px";
 //			container.style.width = gameCanvas_width + "px";
 		}
-	}
-	
+		
+		var gameSpeedSlider = document.getElementById("gameSpeedSlider")
+		gameSpeedSlider.oninput = function () {
+			gameSpeed = 60 - Number(this.value);
+			clearInterval(gameCanvas.interval);
+			gameCanvas.interval = setInterval(updateGameArea, gameSpeed);
+		}
 </script>
 
 	
