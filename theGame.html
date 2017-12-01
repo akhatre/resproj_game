@@ -367,7 +367,7 @@
 	
 	function next_day() {
 		x_pos_at_click = mouse_x;
-		var user_prediction = String((x_pos_at_click-prediction_x_adj)/gameCanvas_width);
+		var user_prediction = String((x_pos_at_click)/gameCanvas_width);
 		db.ref('predictions/' + uid + "/" + day).set({
 			value: user_prediction
 	  	});
@@ -431,7 +431,7 @@
 			iteration += 1;
 
 			myGameArea.context.drawImage(fishers[frame], fisher_x - fisher_x_adj, day_minus_1, fisher_width, row_height);
-			myGameArea.context.drawImage(fish_schools[frame], fish_school_x, day_minus_1+70, fish_school_width, row_height);
+			myGameArea.context.drawImage(fish_schools[frame], fish_school_x - fish_school_width/2, day_minus_1+70, fish_school_width, row_height);
 			
 			
 			if (iteration > 50) {
@@ -458,7 +458,7 @@
 			iteration = 1;
 			
 			myGameArea.context.drawImage(prediction, mouse_x - prediction_x_adj, day_0, prediction_width, row_height*2.1);
-			myGameArea.context.drawImage(fish_schools[frame], fish_school_x, day_minus_1+70, fish_school_width, row_height);
+			myGameArea.context.drawImage(fish_schools[frame], fish_school_x - fish_school_width/2, day_minus_1+70, fish_school_width, row_height);
 			myGameArea.context.drawImage(fishers[frame], fisher_x - fisher_x_adj, day_minus_1, fisher_width, row_height);
 			
 			if (showingGain == 1) {
