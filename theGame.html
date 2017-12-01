@@ -213,8 +213,8 @@
 							type: 'linear',
 							position: 'bottom',
 							ticks: {
-								suggestedMin: 0,
-								suggestedMax: gameCanvas_width
+								min: 0,
+								max: Math.round(gameCanvas_width)
 							}
 						}],
 						yAxes: [{
@@ -223,8 +223,8 @@
 								labelString: "Day"
 							},
 							ticks: {
-								suggestedMin: 0,
-								suggestedMax: 100
+								min: 0,
+								max: 100
 							}
 						}]
 					}
@@ -516,7 +516,7 @@
 				gameChart.data.datasets[0].data.push({x:fish_school_data_raw[d] * gameCanvas_width, y:d});
 				d += 1;
 			}
-			gameChart.options.scales.xAxes[0].ticks.suggestedMax = gameCanvas_width;
+			gameChart.options.scales.xAxes[0].ticks.max = Math.round(gameCanvas_width);
 			gameChart.update();
 						
 //			gameCanvas = document.getElementById("gameCanvas");
