@@ -97,7 +97,7 @@
 		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/gender").set({
 			value: document.getElementById("gender").value
 	  	});
-		window.location.href = "theGame.html"
+		window.location.href = "instructions.html"
 	}
 </script>
 
@@ -132,7 +132,7 @@
 			<div class = "button" onClick = "sendData();">
 				Proceed to the Game
 			</div>
-			<div class = "button" onClick = "window.location.href = 'theGame.html';">
+			<div class = "button" onClick = "window.location.href = 'instructions.html';">
 				Oh, just let me in
 			</div>
 		</div>
