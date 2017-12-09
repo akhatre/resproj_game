@@ -62,7 +62,7 @@
 		var isAnonymous = user.isAnonymous;
 		var uid = user.uid;
 		  firebase.database().ref('users/' + uid + "/set").set({
-				value: "set" + Math.round(Math.random() * 2.99 + 0.5)
+				value: "set" + Math.round(Math.random() * 19.99 + 0.5)
 			});
 		// ...
 	  } else {
