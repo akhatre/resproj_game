@@ -467,7 +467,7 @@
 			myGameArea.context.drawImage(fish_schools[frame], fish_school_x - fish_school_width/2, day_minus_1+70, fish_school_width, row_height);
 			myGameArea.context.drawImage(fishers[frame], fisher_x - fisher_x_adj, day_minus_1, fisher_width, row_height);
 			
-			if (showingGain == 1) {
+			if (showingGain == 1 && day != 100) {
 				gameCanvasContext.font = "30px Comic Sans MS";
 				gameCanvasContext.textAlign = "center";
 				if (score_gain < 3) {
@@ -487,6 +487,19 @@
 					gameCanvasContext.fillStyle = gradient;
 					gameCanvasContext.fillText("OMG! You caught " + score_gain + " fish today!!!", gameCanvas_width/2, day_0);
 				}
+			}
+			
+			if (day == 100) {
+				gameCanvasContext.font = "40px Comic Sans MS";
+				gameCanvasContext.textAlign = "center";
+				var gradient=gameCanvasContext.createLinearGradient(0,0,gameCanvas.width,0);
+				gradient.addColorStop("0","orange");
+				gradient.addColorStop("0.5","yellow");
+				gradient.addColorStop("1.0","orange");
+				gameCanvasContext.fillStyle = gradient;
+				gameCanvasContext.fillText("Thank you for playing! You caught " + score + " fish!!!", gameCanvas_width/2, day_0);
+				setTimeout(function(){window.location.href = 'post_game.html';}, 5000)
+				allow_next_day = 0;
 			}
 		}
 	}

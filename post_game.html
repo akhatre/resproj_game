@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>User Data</title>
+<title>Thank you for playing</title>
 
 <style type = "text/css">
 		div#main {
@@ -33,6 +33,11 @@
 			user-select: none;
 			margin: 10px 0 10px 0;
 		}
+		.textarea {
+			border-radius: 5px;
+			width: 100%;
+			height: 5vw;
+		}
 	</style>
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 <script>
@@ -52,7 +57,7 @@
 	  // Handle Errors here.
 		var errorCode = error.code;
 		var errorMessage = error.message;
-		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("+++ Error code: " + errorCode + " +++ Error message: " + errorMessage + " +++ "))) 
+		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>"))) 
 	  // ...
 	});
 
@@ -73,31 +78,13 @@
 	});
 	
 	function sendData() {
-		if (!Number.isInteger(Number(document.getElementById("age").value)) && Number(document.getElementById("age").value) == 0) {
-			alert("Please input valid age");
-			return
-		}
-		if (document.getElementById("gender").value == "Please select your gender") {
-			alert("Please select your gender")
-			return
-		}
-		if (document.getElementById("prolificid").value == "" || document.getElementById("age").value == "" || document.getElementById("nationality").value == "") {
-			alert("Please fill in all fields")
-			return
-		}
-		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/prolificid").set({
-			value: document.getElementById("prolificid").value
+		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/data_generation_guess").set({
+			value: document.getElementById("generation_process").value
 	  	});
-		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/age").set({
-			value: document.getElementById("age").value
+		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/study_purpose_guess").set({
+			value: document.getElementById("study_purpose").value
 	  	});
-		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/nationality").set({
-			value: document.getElementById("nationality").value
-	  	});
-		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/gender").set({
-			value: document.getElementById("gender").value
-	  	});
-		window.location.href = "instructions.html"
+		document.getElementById("interface").innerHTML = "Thank you for participation. Your data is saved. You can now close this window."
 	}
 </script>
 
@@ -115,25 +102,15 @@
 		<div id = "interface">
 			<div id = "inputs">
 			<h3>Please input your data. Prolific ID is required to reward you. </h3><br>
-				Prolific ID: <br>
-				<input id = "prolificid" type = "number" name = "prolificid"><br><br>
-				Age <br>
-				<input id = "age" type = "number" name = "age"><br><br>
-				Nationality <br>
-				<input id = "nationality" type = "text" name = "nationality"><br><br>
-				Gender <br>
-				<select id = "gender" name = "gender">
-					<option>Male</option>
-					<option>Female</option>
-					<option>Other/Prefer not to say</option>
-					<option selected disabled hidden>Please select your gender</option>
-				</select><br><br><br>
+				Thank you very much for playing the game. We wonder wonder if you realised how the fish locations were generated. If you did, please enter your thoughts below
+				<br><br>
+				<textarea class = "textarea" id = "generation_process"></textarea><br><br><br>
+				Also, if you have any ideas about what we studied in this experimental game, please let us know<br><br>
+				<textarea class = "textarea" id = "study_purpose"></textarea><br><br>
+				<br><br><br>
 			</div>
 			<div class = "button" onClick = "sendData();">
-				Proceed to the Game
-			</div>
-			<div class = "button" onClick = "window.location.href = 'instructions.html';">
-				Oh, just let me in
+				Done
 			</div>
 		</div>
 	</div>
