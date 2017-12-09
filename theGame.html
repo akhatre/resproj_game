@@ -274,6 +274,7 @@
 	var fish_school_x = 100;
 	var score = 0;
 	var gameSpeed = 60;
+	var allow_next_day = 1;
 
 	
 	// Dimensions
@@ -367,7 +368,8 @@
 	}
 	
 	function next_day() {
-		if (click != 1) {
+		if (allow_next_day == 1) {
+			allow_next_day = 0;
 			x_pos_at_click = mouse_x;
 			var user_prediction = String((x_pos_at_click)/gameCanvas_width);
 			db.ref('predictions/' + uid + "/" + day).set({
@@ -443,6 +445,7 @@
 				score_all_field.innerHTML = "Fish caught overall: " + score;
 				
 				click = 0;
+				allow_next_day = 1;
 				day += 1;
 				showingGain = 1;
 			}
