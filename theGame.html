@@ -275,6 +275,11 @@
 	var score = 0;
 	var gameSpeed = 60;
 	var allow_next_day = 1;
+	var decision_stop_times = [];
+	var decision_start_times = [];
+	var time;
+	var start_time = new Date();
+	start_time = start_time.getTime();
 
 	
 	// Dimensions
@@ -370,11 +375,26 @@
 	function next_day() {
 		if (allow_next_day == 1) {
 			allow_next_day = 0;
+			time = new Date();
+			decision_stop_times.push(time.getTime())
 			x_pos_at_click = mouse_x;
+			
 			var user_prediction = String((x_pos_at_click)/gameCanvas_width);
 			db.ref('predictions/' + uid + "/" + day).set({
 				value: user_prediction
 			});
+			
+			if (day != 0) {
+				var rt = decision_stop_times[day] - decision_start_times[day-1];
+				db.ref('rts/' + uid + "/" + day).set({
+					value: rt
+				});
+			} else {
+				var rt = decision_stop_times[day] - start_time;
+				db.ref('rts/' + uid + "/" + day).set({
+					value: rt
+				});
+			}
 
 			db.ref('/locations/' + locations_set + "/" + day).once('value').then(function(snapshot) {
 				click = 1;
@@ -448,6 +468,9 @@
 				allow_next_day = 1;
 				day += 1;
 				showingGain = 1;
+				
+				time = new Date();
+				decision_start_times.push(time.getTime())
 			}
 			
 		} else {
