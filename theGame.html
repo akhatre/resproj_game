@@ -367,26 +367,28 @@
 	}
 	
 	function next_day() {
-		x_pos_at_click = mouse_x;
-		var user_prediction = String((x_pos_at_click)/gameCanvas_width);
-		db.ref('predictions/' + uid + "/" + day).set({
-			value: user_prediction
-	  	});
-		
-		db.ref('/locations/' + locations_set + "/" + day).once('value').then(function(snapshot) {
-			click = 1;
-			fish_school_data_raw.push(snapshot.val());
-			fish_school_data.push(snapshot.val()*gameCanvas_width);
-			fisher_speed = (fisher_x - x_pos_at_click)/50;
-			fish_school_speed = (fish_school_x - fish_school_data[day])/50;
+		if (click != 1) {
+			x_pos_at_click = mouse_x;
+			var user_prediction = String((x_pos_at_click)/gameCanvas_width);
+			db.ref('predictions/' + uid + "/" + day).set({
+				value: user_prediction
+			});
 
-			score_gain = Math.round(0.5/Math.abs(user_prediction - fish_school_data_raw[day]));
-			if (score_gain > 300) {score_gain=300};
-			score += score_gain;
+			db.ref('/locations/' + locations_set + "/" + day).once('value').then(function(snapshot) {
+				click = 1;
+				fish_school_data_raw.push(snapshot.val());
+				fish_school_data.push(snapshot.val()*gameCanvas_width);
+				fisher_speed = (fisher_x - x_pos_at_click)/50;
+				fish_school_speed = (fish_school_x - fish_school_data[day])/50;
 
-			gameChart.data.datasets[0].data.push({x:fish_school_data[day], y:day});
-			gameChart.update();
-		});
+				score_gain = Math.round(0.5/Math.abs(user_prediction - fish_school_data_raw[day]));
+				if (score_gain > 300) {score_gain=300};
+				score += score_gain;
+
+				gameChart.data.datasets[0].data.push({x:fish_school_data[day], y:day});
+				gameChart.update();
+			});
+		}
 		
 //		click = 1;
 //		x_pos_at_click = mouse_x;
