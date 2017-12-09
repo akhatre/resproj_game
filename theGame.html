@@ -129,7 +129,7 @@
 		function getGameDimensions() {
 			winWidth = window.innerWidth;
 			winHeight = window.innerHeight - document.getElementById("game_data").clientHeight;
-			if (winWidth < 1920) {
+			if (winWidth > 999) {
 				if (winWidth/winHeight < 2.89) {
 					gameUI_width = winWidth;
 					gameUI_height = (winWidth-4)/26*9;
@@ -142,18 +142,19 @@
 					chartCanvas_width = (gameUI_width-4)/26*10;
 				}
 			} else {
-				winWidth = winWidth*0.7;
-				if (winWidth/winHeight < 2.89) {
-					gameUI_width = winWidth;
-					gameUI_height = (winWidth-4)/26*9;
-					gameCanvas_width = (gameUI_width-4)/26*16;
-					chartCanvas_width = (gameUI_width-4)/26*10;
-				} else {
-					gameUI_height = winHeight;
-					gameUI_width = winHeight/9*26+4;
-					gameCanvas_width = (gameUI_width-4)/26*16;
-					chartCanvas_width = (gameUI_width-4)/26*10;
-				}
+				alert("Your screen size is too small")
+//				winWidth = winWidth*0.7;
+//				if (winWidth/winHeight < 2.89) {
+//					gameUI_width = winWidth;
+//					gameUI_height = (winWidth-4)/26*9;
+//					gameCanvas_width = (gameUI_width-4)/26*16;
+//					chartCanvas_width = (gameUI_width-4)/26*10;
+//				} else {
+//					gameUI_height = winHeight;
+//					gameUI_width = winHeight/9*26+4;
+//					gameCanvas_width = (gameUI_width-4)/26*16;
+//					chartCanvas_width = (gameUI_width-4)/26*10;
+//				}
 			}
 		}
 		
