@@ -129,7 +129,7 @@
 		function getGameDimensions() {
 			winWidth = window.innerWidth;
 			winHeight = window.innerHeight - document.getElementById("game_data").clientHeight;
-			if (winWidth > 999) {
+			if (winWidth > 899) {
 				if (winWidth/winHeight < 2.89) {
 					gameUI_width = winWidth;
 					gameUI_height = (winWidth-4)/26*9;
@@ -383,7 +383,7 @@
 				fisher_speed = (fisher_x - x_pos_at_click)/50;
 				fish_school_speed = (fish_school_x - fish_school_data[day])/50;
 
-				score_gain = Math.round(0.5/Math.abs(user_prediction - fish_school_data_raw[day]));
+				score_gain = Math.round(0.1/Math.abs(user_prediction - fish_school_data_raw[day]));
 				if (score_gain > 300) {score_gain=300};
 				score += score_gain;
 
