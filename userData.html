@@ -5,6 +5,10 @@
 <title>User Data</title>
 
 <style type = "text/css">
+	body {
+		text-align: center;
+		vertical-align: middle;
+	}
 		div#main {
 			text-align: center;
 		}
@@ -33,6 +37,25 @@
 			user-select: none;
 			margin: 10px 0 10px 0;
 		}
+	div.errorOverlay {
+		    position: fixed; /* Sit on top of the page content */
+			width: 100%; /* Full width (cover the whole page) */
+			height: 100%; /* Full height (cover the whole page) */
+			top: 0; 
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+			z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+	}
+	div.errorDialog {
+		background-color: white;
+		border-radius: 5px;
+		padding: 1%;
+		display: inline-block;
+		text-align: center;
+		margin-top: 10%;
+	}
 	</style>
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 <script>
@@ -51,8 +74,15 @@
 	firebase.auth().signInAnonymously().catch(function(error) {
 	  // Handle Errors here.
 		var errorCode = error.code;
+		var errorDate = new Date();
 		var errorMessage = error.message;
-		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("+++ Error code: " + errorCode + " +++ Error message: " + errorMessage + " +++ "))) 
+		var errorDialog = document.createElement("div");
+		var errorOverlay = document.createElement("div");
+		errorOverlay.className = "errorOverlay";
+		errorDialog.className = "errorDialog";
+		errorDialog.innerHTML = "Sorry, we encountered an unexpected error. We apologise for inconvinience. Please try to run the experiment on another browser or computer. Please <a href=\"mailto:akhat.rakishev.14@ucl.ac.uk?subject=ResProj error message&body=" + "Error code: " + errorCode + " +++ Error message: " + errorMessage + " +++ Date: " + errorDate.getTime() + " +++ UserAgent: " + navigator.userAgent + "\">report the error</a><br><br>Error code: " + errorCode + "<br>Error message: " + errorMessage;
+		document.getElementsByTagName("body")[0].appendChild(errorOverlay) 
+		document.getElementsByClassName("errorOverlay")[0].appendChild(errorDialog)
 	  // ...
 	});
 

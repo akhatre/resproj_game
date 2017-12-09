@@ -32,6 +32,12 @@
 	</style>
 	<script type = "text/javascript">
 		function agreeWithConsent() {
+			
+			if (window.innerWidth < 899) {
+				alert("Sorry, but you need window width of at least 900 pixels to participate. Currently your window width is " + window.innerWidth + " pixels.")
+				return
+			}
+			
 			var i = 0;
 			while (i < document.getElementsByTagName("input").length) {
 				if (!document.getElementsByTagName("input")[i].checked) {
@@ -41,6 +47,10 @@
 				i += 1;
 			}
 			window.location.href = "userData.html"
+		}
+		
+		if (window.innerWidth < 899) {
+			alert("Sorry, but you need window width of at least 900 pixels to participate. Currently your window width is " + window.innerWidth + " pixels.")
 		}
 	</script>
 </head>
