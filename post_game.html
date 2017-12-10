@@ -66,9 +66,6 @@
 		// User is signed in.
 		var isAnonymous = user.isAnonymous;
 		var uid = user.uid;
-		  firebase.database().ref('users/' + uid + "/set").set({
-				value: "set" + Math.round(Math.random() * 2.99 + 0.5)
-			});
 		// ...
 	  } else {
 		// User is signed out.
@@ -101,11 +98,11 @@
 	<div id = "main">
 		<div id = "interface">
 			<div id = "inputs">
-			<h3>Please input your data. Prolific ID is required to reward you. </h3><br>
-				Thank you very much for playing the game. We wonder wonder if you realised how the fish locations were generated. If you did, please enter your thoughts below
+			<h3>Thank you very much for playing the game!</h3><br>
+				We wonder wonder if you realised how the fish locations were generated. If you did, please enter your thoughts below
 				<br><br>
 				<textarea class = "textarea" id = "generation_process"></textarea><br><br><br>
-				Also, if you have any ideas about what we studied in this experimental game, please let us know<br><br>
+				Also, if you have any ideas about what we studied in this experimental game, please let us know below<br><br>
 				<textarea class = "textarea" id = "study_purpose"></textarea><br><br>
 				<br><br><br>
 			</div>
