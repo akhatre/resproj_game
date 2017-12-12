@@ -25,7 +25,7 @@
 	var fisher_x = gameCanvas_width/2;
 	var fish_school_x = 100;
 	var score = 0;
-	var gameSpeed = 60;
+	var gameSpeed = 80;
 	var allow_next_day = 1;
 	var decision_stop_times = [];
 	var decision_start_times = [];
@@ -305,7 +305,7 @@
 		};
 		
 	gameSpeedSlider.oninput = function () {
-		gameSpeed = 60 - Number(this.value);
+		gameSpeed = 80 - Number(this.value);
 		clearInterval(gameCanvas.interval);
 		gameCanvas.interval = setInterval(updateGameArea, gameSpeed);
 	};

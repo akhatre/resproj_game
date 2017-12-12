@@ -97,6 +97,9 @@
 		  firebase.database().ref('users/' + uid + "/version").set({
 				value: "beta"
 			});
+		  firebase.database().ref('users/' + uid + "/userAgent").set({
+				value: navigator.userAgent
+			});
 		// ...
 	  } else {
 		// User is signed out.

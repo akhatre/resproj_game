@@ -78,8 +78,11 @@
 		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/data_generation_guess").set({
 			value: document.getElementById("generation_process").value
 	  	});
-		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/study_purpose_guess").set({
-			value: document.getElementById("study_purpose").value
+		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/prediction_process_guess").set({
+			value: document.getElementById("prediction_process").value
+	  	});
+		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/study_aim_guess").set({
+			value: document.getElementById("study_aim").value
 	  	});
 		document.getElementById("interface").innerHTML = "Thank you for participation. Your data is saved. You can now close this window."
 	}
@@ -99,11 +102,13 @@
 		<div id = "interface">
 			<div id = "inputs">
 			<h3>Thank you very much for playing the game!</h3><br>
-				We wonder wonder if you realised how the fish locations were generated. If you did, please enter your thoughts below
+				How do you think fish locations were generated?
 				<br><br>
 				<textarea class = "textarea" id = "generation_process"></textarea><br><br><br>
-				Also, if you have any ideas about what we studied in this experimental game, please let us know below<br><br>
-				<textarea class = "textarea" id = "study_purpose"></textarea><br><br>
+				How did you determine where to fish next?<br><br>
+				<textarea class = "textarea" id = "prediction_process"></textarea><br><br>
+				What was the aim of the study?<br><br>
+				<textarea class = "textarea" id = "study_aim"></textarea><br><br>
 				<br><br><br>
 			</div>
 			<div class = "button" onClick = "sendData();">
