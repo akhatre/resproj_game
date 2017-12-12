@@ -50,14 +50,14 @@
 	storageBucket: "resproj-27787.appspot.com",
 	messagingSenderId: "612616751913"
 	};
-	
+
 	firebase.initializeApp(config);
-	
+
 	firebase.auth().signInAnonymously().catch(function(error) {
 	  // Handle Errors here.
 		var errorCode = error.code;
 		var errorMessage = error.message;
-		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>"))) 
+		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>")))
 	  // ...
 	});
 
@@ -73,7 +73,7 @@
 	  }
 	  // ...
 	});
-	
+
 	function sendData() {
 		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/data_generation_guess").set({
 			value: document.getElementById("generation_process").value
@@ -101,15 +101,21 @@
 	<div id = "main">
 		<div id = "interface">
 			<div id = "inputs">
-			<h3>Thank you very much for playing the game!</h3><br>
-				How do you think fish locations were generated?
-				<br><br>
-				<textarea class = "textarea" id = "generation_process"></textarea><br><br><br>
-				How did you determine where to fish next?<br><br>
-				<textarea class = "textarea" id = "prediction_process"></textarea><br><br>
-				What was the aim of the study?<br><br>
-				<textarea class = "textarea" id = "study_aim"></textarea><br><br>
-				<br><br><br>
+			<h3>Thank you very much for playing the game!</h3>
+
+
+			<p>Please answer the following questions</p>
+
+			<p>How do you think fish locations were determined from day to day?<br />
+				<textarea class = "textarea" id = "generation_process"></textarea>
+			</p>
+			<p>What was your strategy to determine where to fish next?<br />
+				<textarea class = "textarea" id = "prediction_process"></textarea>
+			</p>
+			<p>
+				What do you think was the aim of this study?<br />
+				<textarea class = "textarea" id = "study_aim"></textarea>
+			</p>
 			</div>
 			<div class = "button" onClick = "sendData();">
 				Done
