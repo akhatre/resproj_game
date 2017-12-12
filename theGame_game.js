@@ -263,11 +263,11 @@
 				gradient.addColorStop("1.0","orange");
 				gameCanvasContext.fillStyle = gradient;
 				gameCanvasContext.fillText("Thank you for playing! You caught " + score + " fish!!!", gameCanvas_width/2, day_0);
-				if (redirect_activated == 0) {
-					setTimeout(function(){window.location.href = 'post_game.html';}, 5000);
-					redirect_activated = 1;
-				}
 				allow_next_day = 0;
+				if (redirect_activated == 0) {
+					redirect_activated = 1;
+					setTimeout(function(){window.location.href = 'post_game.html';}, 5000);
+				}
 			}
 		}
 	}
