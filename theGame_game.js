@@ -265,6 +265,7 @@
 				gameCanvasContext.fillText("Thank you for playing! You caught " + score + " fish!!!", gameCanvas_width/2, day_0);
 				setTimeout(function(){window.location.href = 'post_game.html';}, 5000);
 				allow_next_day = 0;
+				clearInterval(gameCanvas.interval);
 				day += 1;
 			}
 		}
