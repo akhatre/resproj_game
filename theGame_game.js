@@ -253,7 +253,7 @@
 					gameCanvasContext.fillText("OMG! You caught " + score_gain + " fish today!!!", gameCanvas_width/2, day_0);
 				}
 			}
-			
+			var redirect_activated = 0;
 			if (day == 100) {
 				gameCanvasContext.font = "40px Comic Sans MS";
 				gameCanvasContext.textAlign = "center";
@@ -263,10 +263,11 @@
 				gradient.addColorStop("1.0","orange");
 				gameCanvasContext.fillStyle = gradient;
 				gameCanvasContext.fillText("Thank you for playing! You caught " + score + " fish!!!", gameCanvas_width/2, day_0);
-				setTimeout(function(){window.location.href = 'post_game.html';}, 5000);
+				if (redirect_activated == 0) {
+					setTimeout(function(){window.location.href = 'post_game.html';}, 5000);
+					redirect_activated = 1;
+				}
 				allow_next_day = 0;
-				clearInterval(gameCanvas.interval);
-				day += 1;
 			}
 		}
 	}
