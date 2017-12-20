@@ -14,7 +14,7 @@
 	var score_gain_field = document.getElementById("score_gain");
 	var score_all_field = document.getElementById("score_all");
 	var current_day_field = document.getElementById("current_day");
-	var gameSpeedSlider = document.getElementById("gameSpeedSlider");
+//	var gameSpeedSlider = document.getElementById("gameSpeedSlider");
 	var fish_school_data = [];
 	var day = 0;
 	var animation_step = 1;
@@ -307,8 +307,8 @@
 			gameChart.update();
 		};
 		
-	gameSpeedSlider.oninput = function () {
-		gameSpeed = 51 - Number(this.value);
-		clearInterval(gameCanvas.interval);
-		gameCanvas.interval = setInterval(updateGameArea, gameSpeed);
-	};
+//	gameSpeedSlider.oninput = function () {
+//		gameSpeed = 51 - Number(this.value);
+//		clearInterval(gameCanvas.interval);
+//		gameCanvas.interval = setInterval(updateGameArea, gameSpeed);
+//	};
