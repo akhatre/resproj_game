@@ -25,7 +25,7 @@
 	var fisher_x = gameCanvas_width/2;
 	var fish_school_x = 100;
 	var score = 0;
-	var gameSpeed = 51;
+	var gameSpeed = 31;
 	var allow_next_day = 1;
 	var decision_stop_times = [];
 	var decision_start_times = [];
