@@ -266,6 +266,7 @@
 				allow_next_day = 0;
 				if (redirect_activated == 0) {
 					redirect_activated = 1;
+					localStorage.setItem("score", score);
 					setTimeout(function(){window.location.href = 'post_game.html';}, 5000);
 				}
 			}
