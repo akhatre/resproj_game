@@ -36,7 +36,6 @@
 		.textarea {
 			border-radius: 5px;
 			width: 100%;
-			height: 5vw;
 		}
 	</style>
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
@@ -73,15 +72,25 @@
 	  }
 	  // ...
 	});
-
-	function sendData() {
+	
+	function writeData() {
 		firebase.database().ref(firebase.auth().currentUser.uid + "/email").set({
 			value: document.getElementById("email").value
 	  	});
 		firebase.database().ref(firebase.auth().currentUser.uid + "/score").set({
 			value: localStorage.getItem("score")
 	  	});
-		document.getElementById("interface").innerHTML = "Thank you for participation. Your data is saved. You can now close this window."
+	}
+	
+	function sendData() {
+		writeData().then(function() {
+			firebase.auth().signOut().then(function() {
+		  		console.log('Signed Out');
+				document.getElementById("interface").innerHTML = "Thank you for participation. Your data is saved. You can now close this window."
+			}, function(error) {
+			  console.error('Sign Out Error', error);
+			});
+		})
 	}
 </script>
 

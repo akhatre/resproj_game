@@ -73,8 +73,8 @@
 	  }
 	  // ...
 	});
-
-	function sendData() {
+	
+	function writeData() {
 		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/data_generation_guess").set({
 			value: document.getElementById("generation_process").value
 	  	});
@@ -84,7 +84,17 @@
 		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/study_aim_guess").set({
 			value: document.getElementById("study_aim").value
 	  	});
-		window.location.href = "reward.html"
+	}
+
+	function sendData() {
+		writeData().then(function() {
+			firebase.auth().signOut().then(function() {
+		  		console.log('Signed Out');
+				window.location.href = "reward.html"
+			}, function(error) {
+			  console.error('Sign Out Error', error);
+			});
+		})
 	}
 </script>
 
