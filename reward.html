@@ -73,24 +73,19 @@
 	  // ...
 	});
 	
-	function writeData() {
+	function sendData() {
 		firebase.database().ref(firebase.auth().currentUser.uid + "/email").set({
 			value: document.getElementById("email").value
 	  	});
 		firebase.database().ref(firebase.auth().currentUser.uid + "/score").set({
 			value: localStorage.getItem("score")
 	  	});
-	}
-	
-	function sendData() {
-		writeData().then(function() {
-			firebase.auth().signOut().then(function() {
-		  		console.log('Signed Out');
-				document.getElementById("interface").innerHTML = "Thank you for participation. Your data is saved. You can now close this window."
-			}, function(error) {
-			  console.error('Sign Out Error', error);
-			});
-		})
+		firebase.auth().signOut().then(function() {
+			console.log('Signed Out');
+			document.getElementById("interface").innerHTML = "Thank you for participation. Your data is saved. You can now close this window."
+		}, function(error) {
+		  console.error('Sign Out Error', error);
+		});
 	}
 </script>
 
