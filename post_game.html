@@ -73,23 +73,44 @@
 	  }
 	  // ...
 	});
-
-	function sendData() {
-		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/data_generation_guess").set({
-			value: document.getElementById("generation_process").value
-	  	});
-		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/prediction_process_guess").set({
-			value: document.getElementById("prediction_process").value
-	  	});
-		firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/study_aim_guess").set({
-			value: document.getElementById("study_aim").value
-	  	});
-		firebase.auth().signOut().then(function() {
+	
+	var save_ops = 0;
+	var click = 0;
+	
+	function logOut() {
+		if (save_ops == 3) {
+			firebase.auth().signOut().then(function() {
 			console.log('Signed Out');
 			window.location.href = "reward.html"
-		}, function(error) {
-		  console.error('Sign Out Error', error);
-		});
+			}, function(error) {
+			  console.error('Sign Out Error', error);
+			});
+		}
+	}
+
+	function sendData() {
+		if (click == 0) {
+			click = 1;
+			document.getElementById("done_button").innerHTML = "Saving...";
+			firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/data_generation_guess").set({
+				value: document.getElementById("generation_process").value
+			}).then( () => {
+				save_ops = save_ops + 1;
+				logOut();
+			});
+			firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/prediction_process_guess").set({
+				value: document.getElementById("prediction_process").value
+			}).then( () => {
+				save_ops = save_ops + 1;
+				logOut();
+			});
+			firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/study_aim_guess").set({
+				value: document.getElementById("study_aim").value
+			}).then( () => {
+				save_ops = save_ops + 1;
+				logOut();
+			});
+		}
 	}
 </script>
 
@@ -115,7 +136,7 @@
 				<textarea class = "textarea" id = "study_aim"></textarea>
 			</p>
 			</div>
-			<div class = "button" onClick = "sendData();">
+			<div class = "button" onClick = "sendData();" id = "done_button">
 				Done
 			</div>
 		</div>

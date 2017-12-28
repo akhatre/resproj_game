@@ -59,7 +59,7 @@
 		document.getElementsByTagName("body")[0].appendChild(document.createElement("h1").appendChild(document.createTextNode("Error code: " + errorCode + "<br>Error message: " + errorMessage + "<br>")))
 	  // ...
 	});
-
+	
 	firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
 		// User is signed in.
@@ -73,19 +73,39 @@
 	  // ...
 	});
 	
-	function sendData() {
-		firebase.database().ref(firebase.auth().currentUser.uid + "/email").set({
-			value: document.getElementById("email").value
-	  	});
-		firebase.database().ref(firebase.auth().currentUser.uid + "/score").set({
-			value: localStorage.getItem("score")
-	  	});
-		firebase.auth().signOut().then(function() {
+	var save_ops = 0;
+	var click = 0;
+	
+	function logOut() {
+		if (save_ops == 2) {
+			firebase.auth().signOut().then(function() {
 			console.log('Signed Out');
-			document.getElementById("interface").innerHTML = "Thank you for participation. Your data is saved. You can now close this window."
-		}, function(error) {
-		  console.error('Sign Out Error', error);
-		});
+			localStorage.setItem("score", "NA");
+			document.getElementById("interface").innerHTML = "Thank you for participation. Your data is saved. You can now close this window";
+			}, function(error) {
+			  console.error('Sign Out Error', error);
+			});
+		}
+	}
+
+	
+	function sendData() {
+		if (click == 0) {
+			click = 1;
+			document.getElementById("done_button").innerHTML = "Saving...";
+			firebase.database().ref(firebase.auth().currentUser.uid + "/email").set({
+				value: document.getElementById("email").value
+			}).then( () => {
+				save_ops = save_ops + 1;
+				logOut();
+			});
+			firebase.database().ref(firebase.auth().currentUser.uid + "/score").set({
+				value: localStorage.getItem("score")
+			}).then( () => {
+				save_ops = save_ops + 1;
+				logOut();
+			});
+		}
 	}
 </script>
 
@@ -98,13 +118,13 @@
 			<h3>Reward!</h3>
 
 
-			<p>Please enter your email. We will be in contact with you if you won the prize.</p>
+			<p>Please enter your email. We will be in contact with you if you win the prize. Ensure correctness of your email, otherwise we may not be able to get in touch</p>
 
 			<br />
 				<input class = "textarea" id = "email"></input>
 			</p>
 			</div>
-			<div class = "button" onClick = "sendData();">
+			<div class = "button" onClick = "sendData();" id = "done_button">
 				Done
 			</div>
 		</div>
