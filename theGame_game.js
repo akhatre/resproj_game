@@ -127,7 +127,7 @@
 	}
 	
 	function next_day() {
-		if (allow_next_day == 1) {
+		if (allow_next_day == 1 && locations_set != null) {
 			allow_next_day = 0;
 			time = new Date();
 			decision_stop_times.push(time.getTime());
