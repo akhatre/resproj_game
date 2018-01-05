@@ -38,6 +38,13 @@
 			width: 100%;
 			height: 5vw;
 		}
+		h3#score {
+			color: #4CAF50;
+			text-align: center;
+		}
+		h3#title {
+			text-align: center;
+		}
 	</style>
 <script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 <script>
@@ -120,9 +127,9 @@
 	<div id = "main">
 		<div id = "interface">
 			<div id = "inputs">
-			<h3>Thank you very much for playing the game!</h3>
+			<h3 id = "title">Thank you very much for playing the game!</h3>
 
-
+			<h3 id="score"></h3>
 			<p>Please answer the following questions</p>
 
 			<p>How do you think fish locations were determined from day to day?<br />
@@ -141,5 +148,9 @@
 			</div>
 		</div>
 	</div>
+	<script type = "text/javascript">
+		var score = localStorage.getItem("score")
+		document.getElementById("score").innerHTML = "Your score is " + score + " fish"
+	</script>
 </body>
 </html>
