@@ -268,7 +268,7 @@
 					redirect_activated = 1;
 					localStorage.setItem("score", score);
 //					setTimeout(function(){window.location.replace("post_game.html");}, 5000);
-					window.location.replace("post_game.html");
+					window.location.assign("post_game.html");
 				}
 			}
 		}
