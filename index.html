@@ -31,6 +31,15 @@
 		}
 	</style>
 	<script type = "text/javascript">
+		function getParameterByName(name, url) {
+			if (!url) url = window.location.href;
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
 		function agreeWithConsent() {
 			
 			if (window.innerWidth < 899) {
@@ -48,6 +57,9 @@
 			}
 			window.location.href = "userData.html"
 		}
+		
+		var id = getParameterByName("sona_id")
+		localStorage.setItem("sona_id", id);
 		
 		if (window.innerWidth < 899) {
 			alert("Sorry, but you need window width of at least 900 pixels to participate. Currently your window width is " + window.innerWidth + " pixels.")
